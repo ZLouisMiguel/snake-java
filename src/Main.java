@@ -18,5 +18,6 @@ public class Main {
         frame.pack();
         snakeGame.requestFocus();
 
+
     }
 }
