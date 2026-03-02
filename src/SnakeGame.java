@@ -5,9 +5,9 @@ import java.util.Random;
 import javax.swing.*;
 
 
-public class SnakeGame extends JPanel {
+public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
-    private class Tile {
+    private static class Tile {
         int x;
         int y;
 
@@ -29,18 +29,29 @@ public class SnakeGame extends JPanel {
     Tile food;
     Random random;
 
+    //game logic vars
+    Timer gameLoop;
+    int velocityX;
+    int velocityY;
+
 
     SnakeGame(int boardWidth, int boardHeight) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
         setBackground(Color.black);
+        addKeyListener(this);
 
         snakeHead = new Tile(5, 5);
         food = new Tile(10, 10);
         random = new Random();
         placeFood();
 
+        velocityX = 0;
+        velocityY = 0;
+
+        gameLoop = new Timer(2000, this);
+        gameLoop.start();
     }
 
     public void paintComponent(Graphics g) {
@@ -59,15 +70,55 @@ public class SnakeGame extends JPanel {
         }
 
         g.setColor(Color.red);
-        g.fillRect(food.x * tileSize, food.y * tileSize , tileSize, tileSize);
+        g.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 
         g.setColor(Color.green);
         g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
     }
 
     public void placeFood() {
-        food.x = random.nextInt(boardWidth/tileSize);
-        food.y = random.nextInt(boardHeight/tileSize);
+        food.x = random.nextInt(boardWidth / tileSize);
+        food.y = random.nextInt(boardHeight / tileSize);
 
+    }
+
+    public void move() {
+        //Snake head
+        snakeHead.x += velocityX;
+        snakeHead.y += velocityY;
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        move();
+        repaint();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            velocityX = 0;
+            velocityY = -1;
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            velocityX = 0;
+            velocityY = 1;
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            velocityX = -1;
+            velocityY = 0;
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            velocityX = 1;
+            velocityY = 0;
+        }
+    }
+
+
+    //don't need rn
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 }
