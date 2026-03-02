@@ -21,7 +21,12 @@ public class SnakeGame extends JPanel {
     int boardWidth;
     int boardHeight;
     int tileSize = 25;
+
+    //snake vars
     Tile snakeHead;
+
+    //food vars
+    Tile food;
 
 
     SnakeGame(int boardWidth, int boardHeight) {
@@ -31,6 +36,8 @@ public class SnakeGame extends JPanel {
         setBackground(Color.black);
 
         snakeHead = new Tile(5, 5);
+        food = new Tile(10, 10);
+
     }
 
     public void paintComponent(Graphics g) {
@@ -47,6 +54,9 @@ public class SnakeGame extends JPanel {
             g.drawLine(0, i * tileSize, boardWidth, i * tileSize); // horizontal lines
 
         }
+
+        g.setColor(Color.red);
+        g.fillRect(food.x * tileSize, food.y * tileSize , tileSize, tileSize);
 
         g.setColor(Color.green);
         g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
