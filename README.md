@@ -1,14 +1,31 @@
-# Snake 
-This is a clone of the snake game, that I intend to make into a multiplayer game.
+# Snake
 
-Current features are similar to a standard game.
+A Java Swing implementation of the classic Snake game.
 
-To-Do (patch features)
---
+This project is part of a larger game series focused on improving game architecture and eventually adding multiplayer support.
 
-- Add a restart panel on game end
-- Add a difficulty select 
-- Add a high score for each difficulty mode
+---
 
-This game is a part of a series of games am building, if you want to check out other fun games like this
-check them out 👉🏽 [here](https://github.com/ZLouisMiguel/game-jam-series);
+## Features
+
+* Grid-based movement
+* Food spawning
+* Score tracking
+* Collision detection (walls & self)
+* Game loop using `javax.swing.Timer`
+
+---
+
+## To-Do
+
+* Restart panel on Game Over
+* Difficulty selection
+* High score per difficulty
+* Prevent food spawning inside snake
+* Multiplayer mode
+
+---
+
+## Game Series
+
+This game is part of a larger game series am working on. Check it out on GitHub: 👉🏽 [here](https://github.com/ZLouisMiguel/game-jam-series)
