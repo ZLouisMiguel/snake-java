@@ -8,11 +8,14 @@ public class Main {
 
         JFrame frame = new JFrame("Snake");
         frame.setVisible(true);
-        frame.setSize(boardWidth,boardHeight);
+        frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        SnakeGame snakeGame = new SnakeGame(boardWidth, boardHeight);
+        frame.add(snakeGame);
+        frame.pack();
 
     }
 }
