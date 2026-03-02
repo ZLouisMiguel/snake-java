@@ -17,13 +17,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-
     int boardWidth;
     int boardHeight;
     int tileSize = 25;
 
     //snake vars
     Tile snakeHead;
+    ArrayList<Tile> snakeBody;
 
     //food vars
     Tile food;
@@ -34,7 +34,6 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     int velocityX;
     int velocityY;
 
-
     SnakeGame(int boardWidth, int boardHeight) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
@@ -44,6 +43,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
 
         snakeHead = new Tile(5, 5);
+        snakeBody = new ArrayList<>();
+
         food = new Tile(10, 10);
         random = new Random();
         placeFood();
@@ -73,8 +74,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.red);
         g.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 
-        g.setColor(Color.green);
+        g.setColor(Color.decode("#345ff2"));
         g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
+
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Tile snakePart = snakeBody.get(i);
+            g.setColor(Color.green);
+            g.fillRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize);
+        }
     }
 
     public void placeFood() {
@@ -83,7 +90,16 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     }
 
+    public boolean collision(Tile tile1, Tile tile2) {
+        return tile1.x == tile2.x && tile1.y == tile2.y;
+    }
+
     public void move() {
+        if (collision(snakeHead, food)) {
+            snakeBody.add(new Tile(food.x, food.y));
+            placeFood();
+        }
+
         //Snake head
         snakeHead.x += velocityX;
         snakeHead.y += velocityY;
@@ -122,4 +138,5 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
+
 }
