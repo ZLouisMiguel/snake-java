@@ -65,23 +65,26 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     public void draw(Graphics g) {
 
         //grid
-        for (int i = 0; i < (boardWidth / tileSize); i++) {
-            //(x1,y1,x2,y2);
-            g.drawLine(i * tileSize, 0, i * tileSize, boardHeight); //vertical lines
-            g.drawLine(0, i * tileSize, boardWidth, i * tileSize); // horizontal lines
-
-        }
+//        for (int i = 0; i < (boardWidth / tileSize); i++) {
+//            //(x1,y1,x2,y2);
+//            g.drawLine(i * tileSize, 0, i * tileSize, boardHeight); //vertical lines
+//            g.drawLine(0, i * tileSize, boardWidth, i * tileSize); // horizontal lines
+//
+//        }
 
         g.setColor(Color.red);
-        g.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
+//        g.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
+        g.fill3DRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize, true);
 
         g.setColor(Color.decode("#345ff2"));
-        g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
+//        g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
+        g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
         for (int i = 0; i < snakeBody.size(); i++) {
             Tile snakePart = snakeBody.get(i);
             g.setColor(Color.green);
-            g.fillRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize);
+//            g.fillRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize);
+            g.fill3DRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize, true);
         }
 
         //score
@@ -90,6 +93,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.RED);
             g.drawString("Game Over: " + String.valueOf(snakeBody.size()), tileSize - 16, tileSize);
         } else {
+            g.setColor(Color.decode("#345ff2"));
             g.drawString("Score: " + String.valueOf(snakeBody.size()), tileSize - 16, tileSize);
         }
     }
