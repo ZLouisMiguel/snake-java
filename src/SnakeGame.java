@@ -207,11 +207,24 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
-   //state transition method
+    //state transition method
 
     private void triggerGameOver() {
         if (!gameOver) {
             gameOver = true;
         }
+    }
+
+    //Game reset method for internal game variables
+    private void resetGame() {
+        snakeHead = new Tile(5, 5);
+        snakeBody.clear();
+
+        velocityX = 0;
+        velocityY = 0;
+
+        gameOver = false;
+
+        placeFood();
     }
 }
