@@ -9,7 +9,7 @@ This project is part of a larger game series focused on improving game architect
 ## Features
 
 * Grid-based movement
-* Food spawning
+* Food spawning at positions not inside the snake
 * Score tracking
 * Collision detection (walls & self)
 * Game loop using `javax.swing.Timer`
@@ -21,7 +21,6 @@ This project is part of a larger game series focused on improving game architect
 * Restart panel on Game Over
 * Difficulty selection
 * High score per difficulty
-* Prevent food spawning inside snake
 * Multiplayer mode
 
 ---
