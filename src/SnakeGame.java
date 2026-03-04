@@ -121,13 +121,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         // Self collision
         for (Tile snakePart : snakeBody) {
             if (collision(snakeHead, snakePart)) {
-                gameOver = true;
+                triggerGameOver();
             }
         }
 
         // Wall collision
         if (snakeHead.x < 0 || snakeHead.x >= boardWidth / tileSize || snakeHead.y < 0 || snakeHead.y >= boardHeight / tileSize) {
-            gameOver = true;
+            triggerGameOver();
         }
     }
 
@@ -136,12 +136,12 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // =========================
     @Override
     public void actionPerformed(ActionEvent e) {
-        move();
+        if (!gameOver) {
+            move();
+        }
+
         repaint();
 
-        if (gameOver) {
-            gameLoop.stop();
-        }
     }
 
     // =========================
@@ -183,6 +183,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
+        if (gameOver) return;
+
         if (e.getKeyCode() == KeyEvent.VK_UP && velocityY != 1) {
             velocityX = 0;
             velocityY = -1;
@@ -204,5 +206,12 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+   //state transition method
+
+    private void triggerGameOver() {
+        if (!gameOver) {
+            gameOver = true;
+        }
     }
 }
