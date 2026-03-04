@@ -1,5 +1,6 @@
 package panels;
 
+import utils.GameOverListener;
 import utils.Tile;
 
 import javax.swing.*;
@@ -10,21 +11,20 @@ import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
-    // Board
+    private GameOverListener gameOverListener;
+
+    public void setGameOverListener(GameOverListener listener) {
+        this.gameOverListener = listener;
+    }
 
     private final int boardWidth, boardHeight, tileSize = 25;
-
-    // Snake
 
     private Tile snakeHead;
     private final ArrayList<Tile> snakeBody = new ArrayList<>();
 
-    // Food
-
     private Tile food;
     private final Random random = new Random();
 
-    // Game logic
 
     private final Timer gameLoop;
     private int velocityX = 0, velocityY = 0;
@@ -45,12 +45,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         gameLoop = new Timer(100, this);
         gameLoop.start();
-
     }
 
-    // =========================
-    // Utilities
-    // =========================
 
     private boolean collision(Tile t1, Tile t2) {
         return t1.equals(t2);
@@ -70,10 +66,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             food.y = random.nextInt(boardHeight / tileSize);
         } while (!validFoodPosition());
     }
-
-    // =========================
-    // Core game logic
-    // =========================
 
     private void move() {
         if (collision(snakeHead, food)) {
@@ -110,21 +102,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void triggerGameOver() {
-        if (!gameOver) gameOver = true;
+        if (!gameOver) {
+            gameOver = true;
+            // Notify listener
+            if (gameOverListener != null) {
+                gameOverListener.onGameOver(snakeBody.size());
+            }
+        }
     }
 
-    private void resetGame() {
+    // Public reset method
+    public void resetGame() {
         snakeHead = new Tile(5, 5);
         snakeBody.clear();
         velocityX = 0;
         velocityY = 0;
         gameOver = false;
         placeFood();
+        requestFocus(); // ensure key events work again
     }
-
-    // =========================
-    // Rendering
-    // =========================
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -133,12 +129,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void draw(Graphics g) {
-        // Food
+
         g.setColor(Color.red);
         g.fill3DRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize, true);
 
         // Snake head
-        g.setColor(Color.decode("#345ff2"));
+        g.setColor(new Color(2, 83, 2));
         g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
         // Snake body
@@ -149,20 +145,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         // Score
         g.setFont(new Font("Arial", Font.PLAIN, 16));
+        g.setColor(gameOver ? Color.RED : Color.decode("#345ff2"));
+        g.drawString("Score: " + snakeBody.size(), tileSize - 16, tileSize);
+
         if (gameOver) {
-            g.setColor(Color.RED);
-            g.drawString("Game Over: " + snakeBody.size(), tileSize - 16, tileSize);
-            g.drawString("Press SPACE to Restart", tileSize - 16, tileSize + 20);
-        } else {
-            g.setColor(Color.decode("#345ff2"));
-            g.drawString("Score: " + snakeBody.size(), tileSize - 16, tileSize);
+            g.drawString("Game Over!", tileSize - 16, tileSize + 20);
         }
     }
 
     // =========================
     // Game loop
     // =========================
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!gameOver) move();
@@ -172,13 +165,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     // =========================
     // Input
     // =========================
-
     @Override
     public void keyPressed(KeyEvent e) {
-        if (gameOver) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) resetGame();
-            return;
-        }
+        if (gameOver) return; // no input when game over
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP -> {
