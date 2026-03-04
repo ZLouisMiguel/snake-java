@@ -15,6 +15,7 @@ support.
 * Collision detection (walls & self)
 * Game loop using `javax.swing.Timer`
 * Restart panel on Game Over
+* Multi panel app architecture
 
 ---
 
