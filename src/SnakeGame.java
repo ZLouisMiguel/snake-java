@@ -171,6 +171,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             g.setColor(Color.RED);
             g.drawString("Game Over: " + snakeBody.size(), tileSize - 16, tileSize);
+            g.drawString("Press SPACE to Restart", tileSize - 16, tileSize + 20);
         } else {
             g.setColor(Color.decode("#345ff2"));
             g.drawString("Score: " + snakeBody.size(), tileSize - 16, tileSize);
@@ -183,7 +184,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (gameOver) return;
+        if (gameOver) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                resetGame();
+            }
+            return;
+        }
+        ;
 
         if (e.getKeyCode() == KeyEvent.VK_UP && velocityY != 1) {
             velocityX = 0;
