@@ -2,6 +2,9 @@
 
 A Java Swing implementation of the classic Snake game, I'll be adding personal touch later.
 
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Swing](https://img.shields.io/badge/Swing-007396?style=for-the-badge&logo=java&logoColor=white)
+
 ---
 
 ## Features
@@ -30,6 +33,8 @@ src/
   Main.java               # JFrame setup and panel switching
 ```
 
+---
+
 ## To-Do
 
 * Difficulty selection
@@ -45,7 +50,7 @@ This game is part of a larger game series am working on. Check it out on GitHub:
 
 ---
 
-# Preview
+## Preview
 
 ![menu panel](screenshots/menu-panel.png)
 ![game panel](screenshots/game-panel.png)
