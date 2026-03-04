@@ -26,11 +26,18 @@ public class Main {
         JPanel root = new JPanel(new CardLayout());
 
         MenuPanel menuPanel = new MenuPanel(e -> showPanel(root, PANEL_GAME), e -> System.exit(0));
+
         GamePanel gamePanel = new GamePanel(BOARD_WIDTH, BOARD_HEIGHT);
-        GameOverPanel gameOverPanel = new GameOverPanel(e -> {
-            gamePanel.resetGame();
-            showPanel(root, PANEL_GAME);
-        }, e -> showPanel(root, PANEL_MENU));
+        GameOverPanel gameOverPanel = new GameOverPanel(
+                e -> {
+                    gamePanel.resetGame();
+                    showPanel(root, PANEL_GAME);
+                },
+                e -> {
+                    gamePanel.resetGame();
+                    showPanel(root, PANEL_MENU);
+                }
+        );
 
         gamePanel.setGameOverListener(score -> {
             gameOverPanel.setScore(score);
